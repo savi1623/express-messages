@@ -22,20 +22,19 @@ app.post('/api/messages', (req, res) => {
 });
 
 app.get('/api/messages', (req, res) => {
-  //for the find or find1
+  //for the find or find
   Message.find(req.body)
    .then((message) => {
-     res.set('status', 200);
-     res.send(message.message)
+     //returning array of entire object
+     res.send(200, message)
    })
 });
 
-app.get('/api/messages' + Message.id, (req, res) => {
+app.get(`/api/messages/${Message.name}`, (req, res) => {
   //for the find or find1
-  Message.findOne()
-    .then(() => {
-      res.set('status', 200);
-      res.send('Message found')
+  Message.findOne(req.body)
+    .then((message) => {
+      res.send(200, message)
     })
 });
 
