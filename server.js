@@ -17,8 +17,7 @@ app.post('/api/messages', (req, res) => {
   //for the create
   Message.create(req.body)
     .then((message) => {
-  res.set('status', 201)
-  res.send('Made Post Request')
+  res.send(201, message.message)
 })
 });
 
@@ -27,7 +26,7 @@ app.get('/api/messages', (req, res) => {
   Message.find(req.body)
    .then((message) => {
      res.set('status', 200);
-     res.send('Made Get Request')
+     res.send(message.message)
    })
 });
 
