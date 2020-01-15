@@ -4,45 +4,67 @@ const bodyParser = require('body-parser')
 const Message = require('./db/Message');
 
 app.use(bodyParser.json());
-app.use((req,res,next) => {
-  res.status(404).send('That route does not exist');
+
+
+
+// let newMessage = new Message();
+// newMessage.save(function (err) {
+//   if (err) return handleError(err);
+//   // saved!
+// });
+
+app.post('/api/messages', (req, res) => {
+  //for the create
+  Message.create(req.body)
+    .then((message) => {
+  res.set('status', 201)
+  res.send('Made Post Request')
+})
 });
+
+app.get('/api/messages', (req, res) => {
+  //for the find or find1
+  Message.find(req.body)
+   .then((message) => {
+     res.set('status', 200);
+     res.send('Made Get Request')
+   })
+});
+
+app.get('/api/messages' + Message.id, (req, res) => {
+  //for the find or find1
+  Message.findOne()
+    .then(() => {
+      res.set('status', 200);
+      res.send('Message found')
+    })
+});
+
+app.put('/api/messages'+ Message.id, (req, res) => {
+  //for the update
+  Message.update()
+    .then(() => {
+      res.set('status', 201);
+      res.send('Message Updated');
+    })
+});
+
+app.delete('/api/messages'+ Message.id, (req, res) => {
+  //for the delete
+  Message.findOneAndDelete()
+    .then(() => {
+      res.send('Message Deleted');
+    })
+});
+
+// app.use((req, res, next) => {
+//   res.status(404).send(‘That route does not exist’);
+// });
 
 const port = 3000;
 
 app.listen(port, () => {
   console.log('Listening on port', port);
-});
-
-//where to write app.post routes and app.get routes using class that is Message
-//for app/message
-
-app.post('/messages', (res, req) => {
-  //for the create
-  Message.create({name, message})
-    .then(() => {
-  res.status(201);
-  res.send('Made Post Request')})
-});
-
-app.get('/messages', (res, req) => {
-  //for the find or find1
-  Message.find();
-});
-
-app.get('/messages' + Message.id, (res, req) => {
-  //for the find or find1
-  Message.findOne();
-});
-
-app.put('/messages'+ Message.id, (res, req) => {
-  //for the update
-  Message.update();
-});
-
-app.delete('/messages'+ Message.id, (res, req) => {
-  //for the delete
-  Message.findOneAndDelete();
 });
 
 module.exports = app;
